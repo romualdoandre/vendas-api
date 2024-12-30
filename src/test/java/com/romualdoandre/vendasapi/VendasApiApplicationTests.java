@@ -1,4 +1,4 @@
-package com.romualdoandre.vendas_api;
+package com.romualdoandre.vendasapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
