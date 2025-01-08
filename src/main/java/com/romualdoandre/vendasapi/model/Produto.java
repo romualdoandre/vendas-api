@@ -1,12 +1,14 @@
 package com.romualdoandre.vendasapi.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,9 +26,12 @@ public class Produto {
 	private String sku;
 	@Column(name="preco", precision=16, scale=2)
 	private BigDecimal preco;
+	@Column(name="data_cadastro")
+	private LocalDate dataCadastro;
 	
-	public Produto(String nome, String descricao, String sku, BigDecimal preco) {
+	public Produto(Long id, String nome, String descricao, String sku, BigDecimal preco) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.sku = sku;
@@ -69,5 +74,15 @@ public class Produto {
 	}
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
+	}
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+	@PrePersist
+	public void prePersist() {
+		setDataCadastro(LocalDate.now());
 	}
 }

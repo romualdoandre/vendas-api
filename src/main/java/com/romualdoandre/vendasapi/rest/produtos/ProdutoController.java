@@ -20,9 +20,9 @@ public class ProdutoController {
 	@PostMapping
 	public ProdutoFormRequest salvar(@RequestBody ProdutoFormRequest produto) {
 		
-		Produto entidadeProduto = new Produto(produto.getNome(), produto.getDescricao(), produto.getSku(), produto.getPreco());
+		Produto entidadeProduto = produto.toModel();
 		repository.save(entidadeProduto);
-		System.out.println(entidadeProduto);
-		return produto;
+		produto.setId(entidadeProduto.getId());
+		return ProdutoFormRequest.fromModel(entidadeProduto);
 	}
 }
