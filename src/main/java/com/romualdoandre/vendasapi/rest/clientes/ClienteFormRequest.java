@@ -2,23 +2,26 @@ package com.romualdoandre.vendasapi.rest.clientes;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.romualdoandre.vendasapi.model.Cliente;
 
 public class ClienteFormRequest {
 	private Long id;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate nascimento;
 	private String cpf;
 	private String nome;
 	private String endereco;
 	private String telefone;
 	private String email;
-	private LocalDate dataCadastro;
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate cadastro;
 	
 	public ClienteFormRequest() {
 		super();
 	}
 	public ClienteFormRequest(Long id, LocalDate nascimento, String cpf, String nome, String endereco, String telefone,
-			String email, LocalDate dataCadastro) {
+			String email, LocalDate cadastro) {
 		super();
 		this.id = id;
 		this.nascimento = nascimento;
@@ -27,7 +30,7 @@ public class ClienteFormRequest {
 		this.endereco = endereco;
 		this.telefone = telefone;
 		this.email = email;
-		this.dataCadastro = dataCadastro;
+		this.cadastro = cadastro;
 	}
 	public Long getId() {
 		return id;
@@ -72,21 +75,21 @@ public class ClienteFormRequest {
 		this.email = email;
 	}
 	public LocalDate getDataCadastro() {
-		return dataCadastro;
+		return cadastro;
 	}
 	public void setDataCadastro(LocalDate dataCadastro) {
-		this.dataCadastro = dataCadastro;
+		this.cadastro = dataCadastro;
 	}
 	@Override
 	public String toString() {
 		return String.format(
-				"ClienteFormRequest [id=%s, nascimento=%s, cpf=%s, nome=%s, endereco=%s, telefone=%s, email=%s, dataCadastro=%s]",
-				id, nascimento, cpf, nome, endereco, telefone, email, dataCadastro);
+				"ClienteFormRequest [id=%s, nascimento=%s, cpf=%s, nome=%s, endereco=%s, telefone=%s, email=%s, cadastro=%s]",
+				id, nascimento, cpf, nome, endereco, telefone, email, cadastro);
 	}
 	
 	public Cliente toModel() {
 		return new Cliente(id, nascimento, cpf, nome, endereco, telefone,
-				email, dataCadastro);
+				email, cadastro);
 	}
 	
 	public static ClienteFormRequest fromModel(Cliente cliente) {

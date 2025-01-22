@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,6 +40,10 @@ public class Cliente {
 		this.telefone = telefone;
 		this.email = email;
 		this.dataCadastro = dataCadastro;
+	}
+	@PrePersist
+	public void prePersist() {
+		this.dataCadastro=LocalDate.now();
 	}
 
 	public Long getId() {
