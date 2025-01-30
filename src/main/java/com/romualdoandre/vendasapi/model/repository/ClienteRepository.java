@@ -10,6 +10,6 @@ import com.romualdoandre.vendasapi.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 
-	@Query("select c from Cliente c where upper(c.nome) like :nome and c.cpf like :cpf")
+	@Query("select c from Cliente c where upper(c.nome) like upper(:nome) and c.cpf like :cpf")
 	public Page<Cliente> buscarPorNomeCpf(@Param("nome") String nome,@Param("cpf") String cpf, Pageable page);
 }
