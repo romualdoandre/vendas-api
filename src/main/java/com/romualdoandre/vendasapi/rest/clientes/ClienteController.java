@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.romualdoandre.vendasapi.model.Cliente;
+import com.romualdoandre.vendasapi.model.Produto;
 import com.romualdoandre.vendasapi.model.repository.ClienteRepository;
 
 @RestController
@@ -66,5 +68,16 @@ public class ClienteController {
 				.buscarPorNomeCpf("%" + nome + "%", "%" + cpf+ "%", pageable)
 				.map( ClienteFormRequest::fromModel  );
 				
+	}
+	@DeleteMapping("{id}")
+	public ResponseEntity<Void> deletar(@PathVariable Long id){
+		Optional<Cliente> clienteExistente = repository.findById(id);
+		if(clienteExistente.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		Cliente entidade = clienteExistente.get();
+		entidade.setId(id);
+		repository.delete(entidade);
+		return ResponseEntity.noContent().build();
 	}
 }
