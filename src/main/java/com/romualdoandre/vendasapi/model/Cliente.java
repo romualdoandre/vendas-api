@@ -2,6 +2,8 @@ package com.romualdoandre.vendasapi.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,13 +19,14 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate nascimento;
 	private String cpf;
 	private String nome;
 	private String endereco;
 	private String telefone;
 	private String email;
-	@Column(name="data_cadastro")
+	@Column(name="data_cadastro")	
 	private LocalDate dataCadastro;
 	public Cliente() {
 		super();
