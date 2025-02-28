@@ -3,13 +3,17 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-vendas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="491d97b4-9d8f-4a41-b46c-8d1dd25d26af">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="vendas.jrdax"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="DATA_INICIO" class="java.util.Date" isForPrompting="false"/>
+	<parameter name="DATA_FIM" class="java.sql.Date" isForPrompting="false"/>
+	<parameter name="ID_CLIENTE" class="java.lang.Long" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[select v.id as codigo,
 c.nome as nomeCliente,
 v.total as total,
 v.forma_pagamento from venda as v
 inner join cliente as c on c.id=v.id_cliente
-]]>
+where c.id = $P{ID_CLIENTE}
+and v.data_venda between $P{DATA_INICIO} and $P{DATA_FIM}]]>
 	</queryString>
 	<field name="codigo" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="codigo"/>

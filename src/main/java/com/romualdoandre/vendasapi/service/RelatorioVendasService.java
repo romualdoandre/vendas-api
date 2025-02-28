@@ -3,6 +3,7 @@ package com.romualdoandre.vendasapi.service;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,11 +72,14 @@ public class RelatorioVendasService {
 		return null;
 	}
 	
-	public byte[] gerarRelatorioCompiladoFacil() {
+	public byte[] gerarRelatorioCompiladoFacil(Long id, Date inicio, Date fim) {
 		
 		try (Connection conn = dataSource.getConnection()){
 			
 			Map<String, Object> params = new HashMap<>();
+			params.put("ID_CLIENTE", id);
+			params.put("DATA_INICIO", inicio);
+			params.put("DATA_FIM", fim);
 
 			return JasperRunManager.runReportToPdf(relatorioVendasCompilado.getInputStream(), params, conn);
 		}
