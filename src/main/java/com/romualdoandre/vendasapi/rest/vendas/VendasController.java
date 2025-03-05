@@ -43,12 +43,20 @@ public class VendasController {
 	}
 	@GetMapping("/relatorio-vendas")
 	public ResponseEntity<byte[]> relatorioVendas(
-			@RequestParam(value="id", required=false, defaultValue = "0") Long id,
+			@RequestParam(value="id", required=false) Long id,
 			@RequestParam(value="inicio", required=false, defaultValue="") String inicio,
 			@RequestParam(value="fim", required=false, defaultValue="") String fim){
 		
 		Date dataInicio = DateUtils.fromString(inicio, false);
 		Date dataFim = DateUtils.fromString(fim, true);
+		
+		if(dataInicio == null) {
+			dataInicio = DateUtils.DATA_INICIO_PADRAO;
+		}
+		
+		if(dataFim == null) {
+			dataFim = DateUtils.hoje(true);
+		}
 		
 		HttpHeaders header = new HttpHeaders();
 		String fileName = "relatorio-vendas.pdf";
