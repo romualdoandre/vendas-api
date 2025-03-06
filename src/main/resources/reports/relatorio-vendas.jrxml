@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-vendas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="491d97b4-9d8f-4a41-b46c-8d1dd25d26af">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-vendas" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="491d97b4-9d8f-4a41-b46c-8d1dd25d26af">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="vendas.jrdax"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="DATA_INICIO" class="java.util.Date" isForPrompting="false"/>
@@ -242,6 +242,14 @@ order by c.nome, v.data_venda]]>
 		<band height="42" splitType="Stretch"/>
 	</summary>
 	<noData>
-		<band height="50"/>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="50" uuid="e4926c51-3ad1-4a92-a441-32f67b527c04"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Nenhum registro encontrado para os parâmetros de pesquisa]]></text>
+			</staticText>
+		</band>
 	</noData>
 </jasperReport>
