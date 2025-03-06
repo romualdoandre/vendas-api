@@ -1,5 +1,7 @@
 package com.romualdoandre.vendasapi.rest.dashboard;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +26,9 @@ public class DashboardController {
 		long vendas = vendasRepository.count();
 		long clientes = clienteRepository.count();
 		long produtos = produtoRepository.count();
-		
-		return new DashboardData(produtos, clientes, vendas);
+		var anoCorrente = LocalDate.now().getYear();
+		var vendasPorMes = vendasRepository.obterSomatorioVendasPorMes(anoCorrente);
+		return new DashboardData(produtos, clientes, vendas, vendasPorMes);
 	}
 
 }
