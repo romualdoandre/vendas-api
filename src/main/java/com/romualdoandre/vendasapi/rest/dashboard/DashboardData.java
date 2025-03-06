@@ -1,6 +1,11 @@
 package com.romualdoandre.vendasapi.rest.dashboard;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.romualdoandre.vendasapi.model.repository.projections.VendaPorMes;
 
@@ -50,6 +55,9 @@ public class DashboardData {
 
 
 	public List<VendaPorMes> getVendasPorMes() {
+		if(vendasPorMes == null) {
+			vendasPorMes = new ArrayList<>();
+		}
 		return vendasPorMes;
 	}
 
@@ -59,5 +67,26 @@ public class DashboardData {
 		this.vendasPorMes = vendasPorMes;
 	}
 	
-	
+	public void preencherMesesFaltantes() {
+		int mesMaximo = getVendasPorMes().stream().mapToInt(VendaPorMes::getMes).max().getAsInt();
+		List<Integer> listaMeses = IntStream.rangeClosed(1, mesMaximo).boxed().collect(Collectors.toList());
+		List<Integer> mesesAdicionados = getVendasPorMes().stream().map(VendaPorMes::getMes).toList();
+		listaMeses.stream().forEach(mes->{
+			if(!mesesAdicionados.contains(mes)) {
+				getVendasPorMes().add(new VendaPorMes() {
+					
+					@Override
+					public BigDecimal getValor() {				
+						return BigDecimal.ZERO;
+					}
+					
+					@Override
+					public Integer getMes() {
+						return mes;
+					}
+				});
+			}
+		});
+		getVendasPorMes().sort(Comparator.comparing(VendaPorMes::getMes));
+	}
 }

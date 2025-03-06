@@ -28,7 +28,9 @@ public class DashboardController {
 		long produtos = produtoRepository.count();
 		var anoCorrente = LocalDate.now().getYear();
 		var vendasPorMes = vendasRepository.obterSomatorioVendasPorMes(anoCorrente);
-		return new DashboardData(produtos, clientes, vendas, vendasPorMes);
+		var dados = new DashboardData(produtos, clientes, vendas, vendasPorMes);
+		dados.preencherMesesFaltantes();
+		return dados;
 	}
 
 }
