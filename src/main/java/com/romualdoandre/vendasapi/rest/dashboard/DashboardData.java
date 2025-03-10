@@ -68,6 +68,10 @@ public class DashboardData {
 	}
 	
 	public void preencherMesesFaltantes() {
+		
+		if(getVendasPorMes().isEmpty())
+			return;
+		
 		int mesMaximo = getVendasPorMes().stream().mapToInt(VendaPorMes::getMes).max().getAsInt();
 		List<Integer> listaMeses = IntStream.rangeClosed(1, mesMaximo).boxed().collect(Collectors.toList());
 		List<Integer> mesesAdicionados = getVendasPorMes().stream().map(VendaPorMes::getMes).toList();
