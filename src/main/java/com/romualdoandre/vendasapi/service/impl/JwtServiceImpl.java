@@ -37,7 +37,7 @@ public class JwtServiceImpl implements JwtService {
 				.claim("horaExpiracao", horaExpiracao)
 				.signWith(key)
 				.compact();
-		return null;
+		return token;
 	}
 
 	@Override
