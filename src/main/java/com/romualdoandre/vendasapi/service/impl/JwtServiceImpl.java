@@ -3,10 +3,12 @@ package com.romualdoandre.vendasapi.service.impl;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.romualdoandre.vendasapi.model.Usuario;
 import com.romualdoandre.vendasapi.service.JwtService;
@@ -14,9 +16,8 @@ import com.romualdoandre.vendasapi.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-
+@Service
 public class JwtServiceImpl implements JwtService {
 	@Value("${jwt.expiracao}")
 	String expiracao;
@@ -42,20 +43,31 @@ public class JwtServiceImpl implements JwtService {
 
 	@Override
 	public Claims obterClaims(String token) throws ExpiredJwtException {
-		// TODO Auto-generated method stub
-		return null;
+		return Jwts.parser()
+				.setSigningKey(chaveAssinatura)
+				.parseClaimsJws(token)
+				.getBody();
 	}
 
 	@Override
 	public boolean isTokenValido(String token) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			Claims claims = this.obterClaims(token);
+			Date dataExp = claims.getExpiration();
+			LocalDateTime dateTimeExp = dataExp.toInstant()
+					.atZone(ZoneId.systemDefault()).toLocalDateTime();
+			return !LocalDateTime.now().isAfter(dateTimeExp);
+		}
+		catch(ExpiredJwtException ex) {
+			return false;
+		}
 	}
 
 	@Override
 	public String obterLoginUsuario(String token) {
-		// TODO Auto-generated method stub
-		return null;
+		Claims claims = obterClaims(token);
+		String login = claims.getSubject();
+		return login;
 	}
 
 }

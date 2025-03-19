@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.romualdoandre.vendasapi.dto.TokenDTO;
 import com.romualdoandre.vendasapi.dto.UsuarioDTO;
 import com.romualdoandre.vendasapi.exception.ErroAutenticacao;
 import com.romualdoandre.vendasapi.exception.RegraNegocioException;
 import com.romualdoandre.vendasapi.model.Usuario;
+import com.romualdoandre.vendasapi.service.JwtService;
 import com.romualdoandre.vendasapi.service.UsuarioService;
 
 @RestController
@@ -18,9 +20,11 @@ import com.romualdoandre.vendasapi.service.UsuarioService;
 public class UsuarioResource {
 	
 	private final UsuarioService service;
+	private final JwtService jwtService;
 	
-	public UsuarioResource(UsuarioService service) {
+	public UsuarioResource(UsuarioService service, JwtService jwtService) {
 		this.service=service;
+		this.jwtService=jwtService;
 	}
 	
 	@PostMapping
@@ -44,9 +48,9 @@ public class UsuarioResource {
 	public ResponseEntity<?> autenticar( @RequestBody UsuarioDTO dto ) {
 		try {
 			Usuario usuarioAutenticado = service.autenticar(dto.getEmail(), dto.getSenha());
-			//String token = jwtService.gerarToken(usuarioAutenticado);
-			//TokenDTO tokenDTO = new TokenDTO( usuarioAutenticado.getNome(), token);
-			return ResponseEntity.ok(usuarioAutenticado);
+			String token = jwtService.gerarToken(usuarioAutenticado);
+			TokenDTO tokenDTO = new TokenDTO( usuarioAutenticado.getNome(), token);
+			return ResponseEntity.ok(tokenDTO);
 		}catch (ErroAutenticacao e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
