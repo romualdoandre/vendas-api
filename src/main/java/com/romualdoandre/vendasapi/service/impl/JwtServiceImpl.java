@@ -43,8 +43,9 @@ public class JwtServiceImpl implements JwtService {
 
 	@Override
 	public Claims obterClaims(String token) throws ExpiredJwtException {
+		SecretKey key = Keys.hmacShaKeyFor(chaveAssinatura.getBytes());
 		return Jwts.parser()
-				.setSigningKey(chaveAssinatura)
+				.setSigningKey(key)
 				.parseClaimsJws(token)
 				.getBody();
 	}
